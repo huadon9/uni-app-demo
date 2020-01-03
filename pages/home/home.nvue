@@ -1,0 +1,448 @@
+<template>
+	<view class="container">
+		<view class="tab-bar white-bg">
+			<view class="tb-item" v-for="item in tabBars">
+				<text class="tbi-txt" @click="getNoSubmit">{{item.name}}</text>
+				<view class="active-deco" :class="[tabIndex == 0? 'active-deco--active': '']"></view>
+			</view>
+		</view>
+
+		<view class="search-content white-bg">
+			<input type="text" placeholder="搜索" confirm-type="search" class="search-input">
+		</view>
+
+		<swiper :current="tabIndex" class="swiper-box" style="flex: 1;" :duration="300" :disable-touch="true" @transition="onswiperscroll">
+			<swiper-item class="swiper-item" v-for="(tab,index1) in newsList" :key="index1">
+				<!-- #ifdef APP-NVUE -->
+				<list class="scroll-v list" enableBackToTop="true" scroll-y loadmoreoffset="15" @loadmore="loadMore(index1)">
+					<refresh class="refresh" @refresh="onrefresh(index1)" @pullingdown="onpullingdown" :display="tab.refreshing ? 'show' : 'hide'">
+						<div class="refresh-view">
+							<!-- <image class="refresh-icon" :src="refreshIcon"
+							:style="{width: (tab.refreshing || pulling) ? 0: '30px', transform: 'rotate(' + tab.angle + 'deg)'}"></image> -->
+							<image class="refresh-icon" :src="refreshIcon" :style="{width: (tab.refreshing || tab.pulling) ? 0: '30px'}"
+							 :class="{'refresh-icon-active': tab.refreshFlag}"></image>
+							<loading-indicator class="loading-icon" animating="true" v-if="tab.refreshing"></loading-indicator>
+							<text class="loading-text">{{tab.refreshText}}</text>
+						</div>
+					</refresh>
+					<cell v-for="(newsitem,index2) in tab.data" :key="newsitem.id">
+						<view class="lists">
+							<view class="li-row">
+								<view class="li-l">
+									<text class="item-title">项目名称</text>
+								</view>
+								<view class="li-r-align-r">
+									<text class="align-right"></text>
+								</view>
+							</view>
+							<view class="li-row">
+								<view class="li-l">
+									<text>广州吉之岛南山是否会绝对是</text>
+								</view>
+							</view>
+							<view class="li-row">
+								<view class="li-l">
+									<text class="item-title">项目地址</text>
+								</view>
+							</view>
+							<view class="li-row">
+								<view class="li-l">
+									<text class="word-break">江西省南昌市西湖区西湖镇</text><text>万科华侨城项目部</text>
+								</view>
+							</view>
+							<view class="li-row">
+								<view class="li-r-align-r">
+									<button type="primary" size="mini" class="small-btn">编辑</button><button type="primary" size="mini" class="small-btn">提交</button>
+								</view>
+							</view>
+						</view>
+					</cell>
+					<cell class="loading-more" v-if="tab.isLoading || tab.data.length > 4">
+						<text class="loading-more-text">{{tab.loadingText}}</text>
+					</cell>
+				</list>
+				<!-- #endif -->
+			</swiper-item>
+		</swiper>
+		<view class="add-new" @click="goCreate()">
+			<text class="add-new-label">新增</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		components: {},
+		data() {
+			return {
+				showSubmitted: false,
+				list: [],
+				newsList: [],
+				tabIndex: 0,
+				tabBars: [{					
+					name: '未提交',				
+				}, {				
+					name: '已提交',					
+				}],
+				scrollInto: "",
+				showTips: false,
+				navigateFlag: false,
+				pulling: false,
+				refreshIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg==",
+
+			};
+		},
+		onLoad() {
+			this.scrollTimer = null;
+			this.pullTimer = null;
+			this.preloading = false;
+			this.tabBars.forEach((tabBar) => {
+				this.newsList.push({
+					data: [],
+					refreshing: false,
+					refreshFlag: false,
+					refreshText: "刷新",
+					isLoading: true,
+					loadingText: '加载中...',
+					isNoData: false,
+					pulling: false,
+					angle: 0,
+					requestParams: {
+						columnId: tabBar.newsid,
+						minId: 0,
+						pageSize: 10,
+						column: 'id,post_id,title,author_name,cover,published_at,comments_count'
+					}
+				});
+			});
+			this.getList(0);
+		},
+		methods: {
+			getSubmitted() {
+				this.tabIndex = 1
+			},
+			getNoSubmit() {
+				this.tabIndex = 0
+			},
+			goCreate() {
+				uni.navigateTo({
+					// url: '../create/create'
+					url: '../vuepage/vuepage'
+				});
+			},
+			getList(index) {
+				var self = this
+				uni.request({
+					url: 'http://192.168.66.112:3000/list', 
+					data: {
+						page: 1
+					},
+					success: (res) => {
+						// console.log(res.data);
+						self.newsList[index].data = res.data.data;
+						
+					}
+				});
+			},
+			loadMore () {
+				console.log('load more')
+			},
+			onrefresh () {
+				
+			},
+			onpullingdown () {
+				
+			},
+			ontabchange(e) {
+				// 注意：百度小程序会触发2次
+				let index = e.target.current || e.detail.current;
+				if (this.scrollTimer == null) {
+					clearTimeout(this.scrollTimer);
+				}
+				this.preloading = true;
+				this.scrollTimer = setTimeout(() => {
+					this.switchTab(index);
+					this.preloading = false;
+				}, 400);
+			},
+			onswiperscroll() {
+
+			}
+		},
+		onShow() {
+			console.log('show page 1')
+		},
+	}
+</script>
+
+<style lang="scss">
+	/* #ifndef APP-PLUS */
+	page {
+		width: 100%;
+		min-height: 100%;
+		display: flex;
+	}
+
+	/* #endif */
+	.container {
+		flex-direction: column;
+		flex: 1;
+	}
+
+	.tabs {
+		flex: 1;
+		flex-direction: column;
+		overflow: hidden;
+		background-color: #ffffff;
+		/* #ifdef MP-ALIPAY || MP-BAIDU */
+		height: 100vh;
+		/* #endif */
+	}
+
+	.scroll-h {
+		width: 750rpx;
+		height: 80rpx;
+		flex-direction: row;
+		/* #ifndef APP-PLUS */
+		white-space: nowrap;
+		/* #endif */
+		/* flex-wrap: nowrap; */
+		/* border-color: #cccccc;
+		border-bottom-style: solid;
+		border-bottom-width: 1px; */
+	}
+
+	.line-h {
+		height: 1rpx;
+		background-color: #cccccc;
+	}
+
+	.no-data {
+		flex: 1;
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 10;
+	}
+
+	.uni-tab-item {
+		/* #ifndef APP-PLUS */
+		display: inline-block;
+		/* #endif */
+		flex-wrap: nowrap;
+		padding-left: 34rpx;
+		padding-right: 34rpx;
+	}
+
+	.uni-tab-item-title {
+		color: #555;
+		font-size: 30rpx;
+		height: 80rpx;
+		line-height: 80rpx;
+		flex-wrap: nowrap;
+		/* #ifndef APP-PLUS */
+		white-space: nowrap;
+		/* #endif */
+	}
+
+	.uni-tab-item-title-active {
+		color: #007AFF;
+	}
+
+	.swiper-box {
+		flex: 1;
+	}
+
+	.swiper-item {
+		flex: 1;
+		flex-direction: row;
+	}
+
+	.scroll-v {
+		flex: 1;
+		/* #ifndef MP-ALIPAY */
+		flex-direction: column;
+		/* #endif */
+		width: 750rpx;
+	}
+
+	.update-tips {
+		position: absolute;
+		left: 0;
+		top: 41px;
+		right: 0;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		background-color: #FDDD9B;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+
+	.update-tips-text {
+		font-size: 14px;
+		color: #ffffff;
+	}
+
+	.refresh {
+		width: 750rpx;
+		height: 64px;
+		justify-content: center;
+	}
+
+	.refresh-view {
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.refresh-icon {
+		width: 30px;
+		height: 30px;
+		transition-duration: .5s;
+		transition-property: transform;
+		transform: rotate(0deg);
+		transform-origin: 15px 15px;
+	}
+
+	.refresh-icon-active {
+		transform: rotate(180deg);
+	}
+
+	.loading-icon {
+		width: 20px;
+		height: 20px;
+		margin-right: 5px;
+		color: gray;
+	}
+
+	.loading-text {
+		margin-left: 2px;
+		font-size: 16px;
+		color: #999999;
+	}
+
+	.loading-more {
+		align-items: center;
+		justify-content: center;
+		padding-top: 14px;
+		padding-bottom: 14px;
+		text-align: center;
+	}
+
+	.loading-more-text {
+		font-size: 28rpx;
+		color: #999;
+	}
+
+	.add-new {
+		width: 750rpx;
+		height: 50px;
+		background-color: #1aad19;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.add-new:active {
+		background-color: #1aad10;
+	}
+
+	.add-new-label {
+		color: #fff;
+	}
+
+	.list-content {
+		margin-bottom: 60px;
+	}
+
+	.white-bg {
+		background-color: #FFFFFF;
+	}
+
+	.container {
+		// flex: 1;
+		background-color: #f2f2f2;
+	}
+
+	.tab-bar {
+		flex-direction: row;
+		height: 50px;
+	}
+
+	.tb-item {
+		flex-direction: column;
+		flex: 1;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.tbi-txt {
+		font-size: 17px;
+		color: #3a3a3a;
+		font-weight: 400;
+	}
+
+	.active-deco {
+		width: 50px;
+		height: 3px;
+		background-color: transparent;
+	}
+
+	.active-deco--active {
+		background-color: #4CD964;
+	}
+
+	.search-content {
+		align-items: center;
+		padding-bottom: 10px;
+	}
+
+	.search-input {
+		text-align: center;
+		border-width: 1px;
+		border-color: #f2f2f2;
+		border-style: solid;
+		height: 40px;
+		border-radius: 20px;
+		width: 650rpx;
+	}
+
+	.lists {
+		width: 750rpx;
+		margin-top: 10px;
+		background-color: #FFFFFF;
+	}
+
+	.li-row {
+		flex-direction: row;
+		padding: 10px 15px;
+	}
+
+	.li-l {
+		justify-content: center;
+		align-items: center;
+	}
+
+	.small-btn {
+		width: 80px;
+		margin-left: 15px;
+	}
+
+	.li-r-align-r {
+		flex: 1;
+		flex-direction: row;
+		justify-content: flex-end;
+	}
+
+	.align-right {
+		text-align: right;
+		color: #ff1122;
+	}
+
+	.item-title {
+		font-weight: 600;
+	}
+</style>

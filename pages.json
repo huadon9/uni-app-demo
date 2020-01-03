@@ -1,0 +1,81 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationBarTextStyle": "white"
+			}
+		}
+	    ,{
+            "path" : "pages/home/home",
+            "style" : {
+				"navigationBarTitleText": "工程管理"
+			}
+        }
+        ,{
+            "path" : "pages/create/create",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/vuepage/vuepage",
+            "style" : {
+				"navigationBarTitleText": "申请调度"
+			}
+        }
+		,{
+		    "path" : "pages/webview/index",
+		    "style" : {
+				"navigationStyle":"custom" 
+				// "navigationBarTitleText": ""
+			}
+		}
+		,{
+		    "path" : "pages/login/index",
+		    "style" : {
+				"navigationStyle":"custom" 
+				// "navigationBarTitleText": ""
+			}
+		}
+		,{
+		    "path" : "pages/clientManage/clientList",
+		    "style" : {
+				"navigationBarTitleText": "客户列表",
+				"navigationBarTextStyle": "white", // 导航栏字体颜色 只支持white black
+				"h5": { // h5和非h5 是独立的设置
+					"titleNView": {
+						"buttons": [{ // 按钮设置
+							"type": "none",
+							"text": "新增",
+							"fontSize": "15px",
+							"width": "44px"
+						}]
+					}
+				}
+			}
+		}
+		,{
+		    "path" : "pages/clientManage/clientDetail",
+		    "style" : {
+				"navigationBarTitleText": "客户详情",
+				"navigationBarTextStyle": "white",
+				"h5": { // h5和非h5 是独立的设置
+					"titleNView": {
+						"buttons": [{ // 按钮设置
+							"type": "none",
+							"text": "···",
+							"fontSize": "15px",
+							"width": "24px"
+						}]
+					}
+				}
+			}
+		}
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#1aad19",
+		"backgroundColor": "#F8F8F8"
+	}
+}

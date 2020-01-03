@@ -1,0 +1,1 @@
+<view class="content"><image class="logo" src="/static/logo.png"></image><view class="text-area"><text class="title">{{title}}</text></view><navigator url="../home/home?title=navigate" hover-class="navigator-hover"><button type="default">跳转到home页面</button></navigator></view>

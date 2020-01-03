@@ -1,0 +1,38 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/vuepage/vuepage"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#1aad19",
+    "backgroundColor": "#F8F8F8"
+  },
+  "nvue": {
+    "pages": {
+      "pages/home/home.html": {
+        "window": {
+          "usingComponents": {},
+          "navigationBarTitleText": "工程管理"
+        },
+        "nvue": true
+      },
+      "pages/create/create.html": {
+        "window": {
+          "usingComponents": {}
+        },
+        "nvue": true
+      }
+    }
+  },
+  "nvueCompiler": "uni-app",
+  "renderer": "auto",
+  "splashscreen": {
+    "alwaysShowBeforeRender": true,
+    "autoclose": false
+  },
+  "appname": "demo",
+  "compilerVersion": "2.3.7",
+  "usingComponents": {}
+}
