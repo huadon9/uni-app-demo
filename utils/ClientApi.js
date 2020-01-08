@@ -52,6 +52,28 @@ class ClientApi {
     return result
   }
 
+  /**
+   * @description: 获取反馈记录
+   * @param {type}
+   * @return:
+   */
+  async getFeedbackList (param = {}) {
+    let url = '/api/api/basic/sells_client_feedback'
+    let result = await this.getData(url, param)
+    return result
+  }
+
+  /**
+   * @description: 获取项目信息
+   * @param {type}
+   * @return:
+   */
+  async getProjectInfoList (param = {}) {
+    let url = '/api/api/sell/project_follow'
+    let result = await this.getData(url, param)
+    return result
+  }
+
 }
 export {
   ClientApi

@@ -71,6 +71,23 @@
 				}
 			}
 		}
+		,{
+			"path" : "pages/clientManage/feedbackDetail",
+			"style" : {
+			"navigationBarTitleText": "新增反馈",
+			"navigationBarTextStyle": "white",
+			"h5": { // h5和非h5 是独立的设置
+				"titleNView": {
+					"buttons": [{ // 按钮设置
+						"type": "none",
+						"text": "提交",
+						"fontSize": "15px",
+						"width": "44px"
+					}]
+				}
+			}
+		}
+	}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

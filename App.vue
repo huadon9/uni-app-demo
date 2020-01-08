@@ -18,4 +18,9 @@
 	page{
 		background-color: #f8f8f8
 	}
+
+	/* 取消loading组件的黑色透明背景 */
+	uni-toast .uni-toast{
+		background-color: transparent
+	}
 </style>
