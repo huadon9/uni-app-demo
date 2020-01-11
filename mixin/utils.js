@@ -19,6 +19,18 @@ export default {
 			uni.navigateTo({
 				url: url
 			})
+		},
+		/**
+		 * 判断是否是数组
+		 * @param {} param 
+		 */
+		isArray (param) {
+			if (!Array.isArray) {
+				Array.isArray = function(arg) {
+					return Object.prototype.toString.call(arg) === '[object Array]';
+				};
+			}
+			return Array.isArray(param)
 		}
 	}
 }

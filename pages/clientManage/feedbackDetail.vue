@@ -18,6 +18,15 @@
 						<view class="uni-list-cell-db">
 								<gt-picker v-model="date" mode="date" fields="month"></gt-picker>
 						</view>
+						<view class="uni-list-cell-db">
+							<gt-picker v-model="country" mode="selector" :options="countryOptions"></gt-picker>
+						</view>
+						<view class="uni-list-cell-db">
+							<gt-picker v-model="multiSelect" mode="multiSelector" :options="multiOptions"></gt-picker>
+						</view>
+						<view class="uni-list-cell-db">
+							<gt-cascader v-model="city" :options="cityOptions"></gt-cascader>
+						</view>
 				</view>
 		</view>
 	</view>
@@ -26,12 +35,134 @@
 <script>
 	import sunUiUpimg from '@/components/sunui-upimg/sunui-upimg.vue'
 	import GtPicker from '@/components/GtPicker/index'
+	import GtCascader from '@/components/GtCascader/index'
+
 	export default {
 		data() {
 			return {
 				auto: false,
 				time: '19:12',
-				date: '2020-01'
+				date: '2020-01',
+				country: 0,
+				countryOptions: [{
+					label: '中国',
+					value: 0
+				},{
+					label: '美国',
+					value: 1
+				}
+				],
+				multiSelect: [0,0],
+				multiOptions: [
+					[
+						{
+							label: '中国',
+							value: 0
+						},
+						{
+							label: '美国',
+							value: 1
+						},
+					],
+					[
+						{
+							label: '国内',
+							value: 0
+						},
+						{
+							label: '国外',
+							value: 1
+						},
+					]
+				],
+				city: [0, 0, 0],
+				cityOptions: [{
+					label: '广东',
+					value: 10,
+					children: [
+						{
+							label: '中山',
+							value: 11,
+							children: [
+								{
+									label: '石歧',
+									value: 111,
+								},
+								{
+									label: '三乡',
+									value: 112,
+								}
+							]
+						},
+						{
+							label: '广州',
+							value: 12,
+							children: [
+								{
+									label: '海珠',
+									value: 121,
+								},
+								{
+									label: '白云',
+									value: 122,
+								}
+							]
+						}
+					]
+				},
+				{
+					label: '四川',
+					value: 20,
+					children: [
+						{
+							label: '成都',
+							value: 21,
+							children: [
+								{
+									label: '武林',
+									value: 211,
+								},
+								{
+									label: '城西',
+									value: 212,
+								}
+							]
+						},
+						{
+							label: '南充',
+							value: 22,
+							children: [
+								{
+									label: '阆中',
+									value: 221,
+								},
+								{
+									label: '嘉陵',
+									value: 222,
+								}
+							]
+						}
+					]
+				}]
+				// cityOptions: [
+				// 	[{
+				// 		label: '广东',
+				// 		value: 0
+				// 	},{
+				// 		label: '四川',
+				// 		value: 1
+				// 	}
+				// 	],[
+				// 		{
+				// 			label: '中山',
+				// 			value: 0
+				// 		},
+				// 		{
+				// 			label: '广州',
+				// 			value: 1
+				// 		}
+				// 	]
+				// ]
 			}
 		},
 		mounted() {
@@ -56,7 +187,8 @@
 		},
 		components: {
 			'sunui-upimg': sunUiUpimg,
-			GtPicker
+			GtPicker,
+			GtCascader
 		},
 		methods: {
 			upfile() {
