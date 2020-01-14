@@ -60,7 +60,7 @@
     created () {
       this.setData()
       this.setMultiOptions()
-      this.calcOptions(21)
+      console.log(this.calcOptions(122))      
     },
     methods: {
       setData () {
@@ -90,29 +90,78 @@
         let options = []
         let data = this.deepCopy(this.options)
         let origin_data = this.deepCopy(this.options)
+        let had_found = false
+        let default_options = []
+        let read_index = []
+        let read_column = 0
+        let max_column = 0
+        let self = this
         
-        let calc = function (content, data) {       
+        let calc = function (content, data) {      
+          if (read_index[read_column] && read_column == 0 && read_index[read_column].index > default_options[0].length - 1) {
+            return
+          } 
           content.push([])
           let last_index = content.length - 1
-          let found_index = 0
+          let found_index = read_index[read_column] ? read_index[read_column].index : 0
           data.forEach ((item, index) => {
             if (item.value == value) {
               found_index = index
+              had_found = true
             }
             content[last_index].push({
               label: item.label,
               value: item.value
             })
           })
-          if (data[found_index].children) {
-            data = data[found_index].children
-            calc(options, data)
-          } else {
 
+          if (read_index[read_column] == undefined) {
+            read_index[read_column] = {
+              index: 0,
+              childrens: data[found_index].children ? data[found_index].children.length : 0
+            } 
+          } else {
+            // if (read_column > 0 && read_index[read_column].index + 1 == read_index[read_column].childrens) {
+            //   read_index[read_column - 1].index = 0
+            // }
+            if (max_column > 0 && read_column == max_column) {
+              read_index[read_column].index++
+            }
+            
+            if (read_column < max_column) {
+              if (read_index[read_column].childrens == read_index[read_column + 1].index) {
+                read_index[read_column].index++
+                read_index[read_column + 1].index = 0
+              }
+            }
+          }
+          // console.log(JSON.stringify(read_index))
+          if (data[found_index] && data[found_index].children) {
+            data = data[found_index].children
+            read_column++
+            calc(content, data)
+          } else {
+            if (default_options.length == 0) {
+              default_options = content
+            }
+            if (had_found) {              
+              options = content
+            } else {
+              if (read_index[0].index <= default_options[0].length - 1) {
+                data = self.deepCopy(origin_data)
+                content = []
+                max_column = read_column
+                read_column = 0
+                calc(content, data)
+              }              
+            }
           }
         }
         calc(options, data)
-        console.log(options)
+        if (!had_found) {
+          return default_options
+        }
+        return options
       },  
       bindSelectChange (e) {
         this.valueSet = e.detail.value
