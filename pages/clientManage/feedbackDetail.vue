@@ -6,23 +6,35 @@
 		<sunui-upimg @change="getImageInfo" :upload_auto="true" :upimg_move="true" ref="upimg"></sunui-upimg>
 		<button @click="upfile">上传</button>
 		<button @click="pageComunication">跨页面通信</button>
-		<view class="uni-title uni-common-pl" @click="printLog">地区选择器</view>
+		<!-- <view class="uni-title uni-common-pl" @click="printLog">地区选择器</view> -->
 		<view class="uni-list">
 				<view class="uni-list-cell">
 						<view class="uni-list-cell-left">
-								当前选择
+							时间选择
 						</view>
 						<view class="uni-list-cell-db">
-								<gt-picker v-model="time" mode="time"></gt-picker>
+							<gt-picker v-model="time" mode="time"></gt-picker>
+						</view>
+						<view class="uni-list-cell-left">
+							日期选择
 						</view>
 						<view class="uni-list-cell-db">
-								<gt-picker v-model="date" mode="date" fields="month"></gt-picker>
+							<gt-picker v-model="date" mode="date" fields="month"></gt-picker>
+						</view>
+						<view class="uni-list-cell-left">
+							单选picker
 						</view>
 						<view class="uni-list-cell-db">
 							<gt-picker v-model="country" mode="selector" :options="countryOptions"></gt-picker>
 						</view>
+						<view class="uni-list-cell-left">
+							多选picker
+						</view>
 						<view class="uni-list-cell-db">
 							<gt-picker v-model="multiSelect" mode="multiSelector" :options="multiOptions"></gt-picker>
+						</view>
+						<view class="uni-list-cell-left">
+							级联选择
 						</view>
 						<view class="uni-list-cell-db">
 							<gt-cascader v-model="city" :options="cityOptions"></gt-cascader>
@@ -75,7 +87,7 @@
 						},
 					]
 				],
-				city: [0, 0, 0],
+				city: [10, 12, 122],
 				cityOptions: [{
 					label: '广东',
 					value: 10,
@@ -214,5 +226,12 @@
 </script>
 
 <style lang="scss">
-
+ .uni-list-cell-left{
+	 font-size: 15px;
+	 color: #666;
+	 padding: 10px 15px;
+ }
+ .uni-list-cell-db{
+	 padding: 0 15px;
+ }
 </style>
