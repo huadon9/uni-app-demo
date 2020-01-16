@@ -6,7 +6,7 @@
     <uni-list class="list-item" v-for="(item, index) in client_list" :key="index">
       <uni-list-item :title="item.name" :show-arrow="false" :note="item.region_type_name"></uni-list-item>    
       <view class="logo-info">
-        <image class="li-image" src="http://ms.geto.pro/static_mobile/images/company.png" style="width: 120px" mode="widthFix"></image>
+        <image class="li-image" src="http://ms.geto.pro/static_mobile/images/company.png" style="width: 120px;height: 86px;" mode="widthFix"></image>
         <view class="li-info"><uni-list-item title="客户分类：" :show-arrow="false" note="附属公司："></uni-list-item>  </view>
       </view>  
       <view class="bottom-btn">

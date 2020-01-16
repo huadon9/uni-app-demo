@@ -1,7 +1,12 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/vuepage/vuepage"
+    "pages/vuepage/vuepage",
+    "pages/webview/index",
+    "pages/login/index",
+    "pages/clientManage/clientList",
+    "pages/clientManage/clientDetail",
+    "pages/clientManage/feedbackDetail"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -33,6 +38,6 @@
     "autoclose": false
   },
   "appname": "demo",
-  "compilerVersion": "2.3.7",
+  "compilerVersion": "2.5.1",
   "usingComponents": {}
 }

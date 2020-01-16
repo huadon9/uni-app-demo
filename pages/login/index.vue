@@ -1,13 +1,16 @@
 <template>
 	<view class="content">
-    <view class="item">
-      <input type="text" v-model="username">
+    <view class="logo">
+      <image class="li-image" src="http://ms.geto.pro/main/images/logo-whiteFont.png" style="width: 187.5px;height:48px;" mode="widthFix"></image>
     </view>
     <view class="item">
-      <input type="password" v-model="password">
+      <text class="label">账号:</text><input type="text" v-model="username" class="input" placeholder="请输入账号用户名">
     </view>
     <view class="item">
-      <button size="mini" @click="doLogin">登录</button>
+      <text class="label">密码:</text><input type="password" v-model="password" class="input" placeholder="请输入密码">
+    </view>
+    <view class="login">
+      <button size="mini" @click="doLogin" type="primary" class="full-width-btn"><text>登录</text></button>
     </view>
     
 	</view>
@@ -49,22 +52,46 @@
     onNavigationBarButtonTap (e) {
       console.log(e)
       console.log('tapped')
-    },
-    /**
-     * 上拉触底的监听 
-     */
-    onReachBottom () {
-
     }
 	}
 </script>
 
 <style lang='scss'>
-  .item{
+  .logo{
+    padding: 3rem 0;
     text-align: center;
-    margin: 15px 0;
-    input{
-      border: 1px solid #3a3a3a
+  }
+  .item{
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    &::after{
+      content: '';
+      height: 1px;
+      background-color: #f2f2f2;
+      position: absolute;
+      bottom: 0;
+      left: 15px;
+      right: 15px;
     }
+    .label{
+      width: 105px;
+      font-size: 16px;
+      color: black;
+    }
+    input{
+      border: none;
+    }
+  }
+  .login{
+    text-align: center;
+    margin-top: 15px;
+    padding: 0 15px;
+  }
+  .full-width-btn{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
   }
 </style>

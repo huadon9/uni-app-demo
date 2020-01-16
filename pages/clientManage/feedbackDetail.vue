@@ -5,7 +5,7 @@
 		<view class="sunui-title">图片上传</view>
 		<sunui-upimg @change="getImageInfo" :upload_auto="true" :upimg_move="true" ref="upimg"></sunui-upimg>
 		<button @click="upfile">上传</button>
-		<button @click="pageComunication">跨页面通信</button>
+		<button @click="pageComunication">跨页面通信切换详情页navbar</button>
 		<!-- <view class="uni-title uni-common-pl" @click="printLog">地区选择器</view> -->
 		<view class="uni-list">
 				<view class="uni-list-cell">

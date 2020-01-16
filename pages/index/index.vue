@@ -11,7 +11,7 @@
 			<button type="default">跳转到web-view页面</button>
 		</navigator>
 		<!-- <button type="default" @click="patchTest">Patch 请求测试</button> -->
-		<button type="default" @click="deleteTest">Delete 请求测试</button>
+		<!-- <button type="default" @click="deleteTest">Delete 请求测试</button> -->
 	</view>
 </template>
 

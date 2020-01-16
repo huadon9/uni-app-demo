@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
     <view class="center-content">
-      <image class="li-image" src="http://ms.geto.pro/static_mobile/images/company.png" style="width: 32px" mode="widthFix"></image><text class="company-name">{{client_info.name}}</text>
+      <image class="li-image" src="http://ms.geto.pro/static_mobile/images/company.png" style="width: 32px;height: 24px;" mode="widthFix"></image><text class="company-name">{{client_info.name}}</text>
     </view>
     <view class="more-info">
       <button type="primary" size="mini" @click="tabIndex = 1">客户信息</button>
@@ -137,8 +137,17 @@
         }
       },
       listenUpdate (e) {
-        console.log(e)
-        this.getList(1)
+        // console.log(e)
+        if (this.tabIndex == 0) {
+          this.tabIndex = 1         
+        } else {
+          this.tabIndex = 0
+        }
+        this.tab0List = []
+        this.tab0Page = 1
+        this.tab1List = []
+        this.tab1Page = 1
+        this.getList(this.tabIndex)
       }
     },
     /**

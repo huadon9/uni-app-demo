@@ -5,8 +5,10 @@ import { Common } from './Common'
 class Data {
   constructor () {
     this.mockService = axios.create()
+    let dev = process.env.NODE_ENV === 'development'
     this.service = axios.create({
-      baseURL: '', // api的base_url
+      baseURL: dev ? '' : 'http://192.168.66.112', // api的base_url 非开发环境暂加上本地host 代理
+      // baseURL: 'http://192.168.66.112',
       timeout: 180000 // 请求超时时间
     })
   }
