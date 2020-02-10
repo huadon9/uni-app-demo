@@ -13,16 +13,6 @@
 				"navigationBarTitleText": "工程管理"
 			}
         }
-        ,{
-            "path" : "pages/create/create",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/vuepage/vuepage",
-            "style" : {
-				"navigationBarTitleText": "申请调度"
-			}
-        }
 		,{
 		    "path" : "pages/webview/index",
 		    "style" : {
@@ -35,6 +25,12 @@
 		    "style" : {
 				"navigationStyle":"custom" 
 				// "navigationBarTitleText": ""
+			}
+		}
+		,{
+		    "path" : "pages/menu/index",
+		    "style" : {
+				"navigationStyle": "custom"
 			}
 		}
 		,{
@@ -87,7 +83,16 @@
 				}
 			}
 		}
+	},
+	{
+		"path" : "pages/clientManage/upload",
+		"style" : {
+		"navigationBarTitleText": "上传",
+		"navigationBarTextStyle": "white",
+		"h5": { // h5和非h5 是独立的设置	
+		}
 	}
+}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

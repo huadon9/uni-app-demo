@@ -8,7 +8,7 @@
 	<view class="switch-bar">
     <view class="switch-item" v-for="(item, index) in barSets" :key="index" :class="{'active': item.active}" @click="changeTab(index)">
       <text>{{item.label}}</text>
-      <uni-badge :text="item.badge" :type="item.badgeType" v-if="item.showBadge"></uni-badge>
+      <uni-badge :text="item.badge" :type="item.badgeType" v-if="item.showBadge" class="badge"></uni-badge>
     </view>
 	</view>
 </template>
@@ -107,7 +107,7 @@
           transform: translateX(-50%)
         }
       }
-      .uni-badge{
+      .badge{
         position: absolute;
         top: 0px;
         right: 15px;

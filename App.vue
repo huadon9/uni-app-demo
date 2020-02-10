@@ -12,14 +12,16 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	@import './static/css/iconfont.css';
+
 	/*每个页面公共css */
 	/* 统一设置页面的背景颜色 */
 	page{
 		background-color: #f8f8f8
 	}
 
-	/* 取消loading组件的黑色透明背景 */
+	/* 取消loading组件的黑色透明背景 only h5 */
 	uni-toast .uni-toast{
 		background-color: transparent
 	}

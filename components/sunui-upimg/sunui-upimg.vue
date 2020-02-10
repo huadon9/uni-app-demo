@@ -45,7 +45,7 @@
 				// 图片/选择宽高
 				upload_img_wh: 162,
 				// 测试接口(建议七牛、阿里云、腾讯云都采用后端对接，直接调用后端上传)
-				url: 'https://a3.dns06.net.cn/app/index.php?i=2&c=entry&a=wxapp&do=Upload_qiniu_b&m=jzwx_a'
+				url: ''
 			}
 		},
 		name: 'sunui-upimg',

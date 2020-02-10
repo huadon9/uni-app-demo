@@ -1,24 +1,50 @@
-import axios from 'axios'
+import axios from '@/tools/axios-uni-app'
 
 // let loading;
 import { Common } from './Common'
+
+/**
+ * 请求接口日志记录
+ */
+function _reqlog(req) {
+  if (process.env.NODE_ENV === 'development') {
+      console.log("请求地址：" + req.url, req.data || req.params)
+  }
+  //TODO 调接口异步写入日志数据库
+}
 class Data {
-  constructor () {
-    this.mockService = axios.create()
+  constructor () {    
     let dev = process.env.NODE_ENV === 'development'
+    this.service = {}
+    // this.service = axios.create({
+    //   baseURL: dev ? '' : 'http://192.168.66.112', // api的base_url 非开发环境暂加上本地host 代理
+    //   // baseURL: 'http://192.168.66.112',
+    //   timeout: 6000, // 请求超时时间
+    //   // #ifdef H5
+    //   withCredentials: true,
+    //   // #endif
+    //   headers: {
+    //       'Content-Type': 'application/json',
+    //       'X-Requested-With': 'XMLHttpRequest',
+    //   },
+    // })
     this.service = axios.create({
-      baseURL: dev ? '' : 'http://192.168.66.112', // api的base_url 非开发环境暂加上本地host 代理
-      // baseURL: 'http://192.168.66.112',
-      timeout: 180000 // 请求超时时间
+        baseURL: 'http://192.168.1.183',
+        timeout: 6000,  // 不可超过 manifest.json 中配置 networkTimeout的超时时间
+        // #ifdef H5
+        withCredentials: true,
+        // #endif
+        headers: {
+            'Content-Type': 'application/json',
+            //'X-Requested-With': 'XMLHttpRequest',
+        },
     })
   }
   static getInstance () {
     if (!this.instance) this.instance = new Data()
     return this.instance
   }
-  getMock () {
-    return this.mockService
-  }
+  
   /**
    * @author:POPE
    * @description: 数据请求
@@ -35,7 +61,6 @@ class Data {
       method: 'post',
       data: {},
       isToken: true,
-      mode: 'mock',
       xmlHttpRequest: true,
       loadingText: '加载中...'
     }
@@ -45,24 +70,28 @@ class Data {
         params.data
       )}`
     }
-    switch (params.mode) {
-      case 'mock':
-        service = this.mockService
-        break
-      default:
-      case 'real':
-        service = this.service
-        break
-    }
+
+    service = this.service
+    
     // 不是开发环境，全部使用真实接口
-    if (env.NODE_ENV !== 'development') {
-      if (params.url.indexOf('/upload') > -1) {
-        params.url = params.url.replace('/upload', '') // 去除/upload
-      } else if (params.url.indexOf('/api') > -1) {
-        params.url = params.url.replace('/api', '') // 去除/api
-      }
-      service = this.service
+    // if (env.NODE_ENV !== 'development') {
+    //   if (params.url.indexOf('/upload') > -1) {
+    //     params.url = params.url.replace('/upload', '') // 去除/upload
+    //   } else if (params.url.indexOf('/api') > -1) {
+    //     params.url = params.url.replace('/api', '') // 去除/api
+    //   }
+    //   service = this.service
+    // }
+
+    //#ifndef H5
+    
+    //#endif
+    if (params.url.indexOf('/upload') > -1) {
+      params.url = params.url.replace('/upload', '') // 去除/upload
+    } else if (params.url.indexOf('/api') > -1) {
+      params.url = params.url.replace('/api', '') // 去除/api
     }
+
     // 每次请求携带cookies信息
     // axios.defaults.withCredentials = true;
     // axios.defaults.crossDomain = true;
@@ -80,8 +109,8 @@ class Data {
         //   background: 'rgba(0, 0, 0, 0.3)'
         // });
         // 设置token
-        if (sessionStorage.getItem('user_info')) {
-          token = JSON.parse(sessionStorage.getItem('user_info')).token
+        if (uni.getStorageSync('user_info')) { // 同步获取方式
+          token = JSON.parse(uni.getStorageSync('user_info')).token
         }
         if (params.isToken && token) {
           // 判断是否存在token和是否需要token，如果存在的话，则每个http header都加上token
@@ -95,6 +124,7 @@ class Data {
         // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
         // if (config.url.indexOf(url) === -1) config.url = url + config.url;/*拼接完整请求路径*/
+        _reqlog(config)
         return config
       },
       error => {
@@ -135,8 +165,12 @@ class Data {
         .catch(error => {
           // loading.close();
           reject(error)
-          alert(`请求失败: ${error}`)
-          console.log(error)
+          uni.hideLoading()
+          uni.showModal({
+            title: '提示',
+            content: `${error}`,
+            showCancel: false
+          })        
         })
     })
   }

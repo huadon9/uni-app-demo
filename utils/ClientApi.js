@@ -8,7 +8,6 @@ import {
 } from './Data'
 class ClientApi {
   constructor () {
-    this.mode = 'real'
     this.isToken = true
   }
   static getInstance () {
@@ -25,8 +24,7 @@ class ClientApi {
       url: url,
       method: method,
       data: param,
-      isToken: this.isToken,
-      mode: this.mode
+      isToken: this.isToken
     }
     let result = await Data.getInstance().get(params)
     return result

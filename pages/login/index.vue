@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
     <view class="logo">
-      <image class="li-image" src="http://ms.geto.pro/main/images/logo-whiteFont.png" style="width: 187.5px;height:48px;" mode="widthFix"></image>
+      <image class="li-image" src="/static/images/logo-whiteFont.png" style="width: 187.5px;height:48px;" mode="widthFix"></image>
     </view>
     <view class="item">
       <text class="label">账号:</text><input type="text" v-model="username" class="input" placeholder="请输入账号用户名">
@@ -17,7 +17,8 @@
 </template>
 
 <script>
-  import { ClientApi } from '../../utils/ClientApi.js'
+  import { ClientApi } from '@/utils/ClientApi.js'
+  import http from '@/utils/Http.js'
 	export default {
 		data() {
 			return {
@@ -33,32 +34,39 @@
 		},
 		methods: {
       async doLogin () {
+        uni.showLoading()
         let res = await ClientApi.getInstance().Login({
           username: this.username,
           password: this.password
         })
+        uni.hideLoading()
         if (res.data.code === 200000) {
-          sessionStorage.setItem("user_info", JSON.stringify(res.data.data));
-          sessionStorage.setItem("media_type", '1');
-          uni.navigateTo({
-            url: '/pages/clientManage/clientList'
+          uni.setStorage({ // 异步存储方式
+            key: "user_info", 
+            data: JSON.stringify(res.data.data)
           });
+          uni.setStorage({
+            key: "media_type", 
+            data: '1'
+          });
+          uni.navigateTo({
+            url: '/pages/menu/index'
+          });
+        } else {
+          uni.showModal({
+            title: '提示',
+            content: res.data.message,
+            showCancel: false
+          })
         }
       }
-    },
-    /**
-     * 导航栏的按钮 需要在页面进行监听
-     */
-    onNavigationBarButtonTap (e) {
-      console.log(e)
-      console.log('tapped')
     }
 	}
 </script>
 
 <style lang='scss'>
   .logo{
-    padding: 3rem 0;
+    padding: 100px 0 80px 0; 
     text-align: center;
   }
   .item{
@@ -92,6 +100,6 @@
   .full-width-btn{
     width: 100%;
     height: 40px;
-    line-height: 40px;
+    line-height: 40px !important;
   }
 </style>

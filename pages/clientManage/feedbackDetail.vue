@@ -4,7 +4,8 @@
 		<!-- 如需单页面使用多次,重置一下@change返回值以及修改ref钩子名称即可-->
 		<view class="sunui-title">图片上传</view>
 		<sunui-upimg @change="getImageInfo" :upload_auto="true" :upimg_move="true" ref="upimg"></sunui-upimg>
-		<button @click="upfile">上传</button>
+		<button @click="goUploadPage()">上传页面</button>
+		<!-- <upload-file></upload-file> -->
 		<button @click="pageComunication">跨页面通信切换详情页navbar</button>
 		<!-- <view class="uni-title uni-common-pl" @click="printLog">地区选择器</view> -->
 		<view class="uni-list">
@@ -48,8 +49,14 @@
 	import sunUiUpimg from '@/components/sunui-upimg/sunui-upimg.vue'
 	import GtPicker from '@/components/GtPicker/index'
 	import GtCascader from '@/components/GtCascader/index'
-
+	import UploadFile from '@/components/UploadFile/index'
 	export default {
+		components: {
+			'sunui-upimg': sunUiUpimg,
+			GtPicker,
+			GtCascader,
+			UploadFile
+		},
 		data() {
 			return {
 				auto: false,
@@ -183,7 +190,7 @@
 			// 是否自动上传 - upload_auto:true/false，默认自动上传. 如需手动上传则置为false,再置为true
 
 			// 这里是上传服务器的后端url(这里是后端签名等，然后前端直接调用->这种方式支持App/小程序/h5)
-			this.$refs.upimg.url = '/upload/base/file/upload_vue';
+			this.$refs.upimg.url = 'http:192.168.1.183/upload/base/file/upload_vue';
 			// 上传数量控制
 			this.$refs.upimg.upload_count = 4;
 			// 图片以及添加宽高
@@ -196,12 +203,7 @@
         //   path: 'http://a3q.dns06.net.cn/15742420068480.png'
         // }
       ];
-		},
-		components: {
-			'sunui-upimg': sunUiUpimg,
-			GtPicker,
-			GtCascader
-		},
+		},		
 		methods: {
 			upfile() {
 				// upload_auto为true才可上传(手动上传)
@@ -220,6 +222,11 @@
 			},
 			printLog () {
 				console.log(this.time)
+			},
+			goUploadPage () {
+				uni.navigateTo({
+          url: './upload'
+        });
 			}
 		}
 	}
@@ -227,11 +234,11 @@
 
 <style lang="scss">
  .uni-list-cell-left{
-	 font-size: 15px;
-	 color: #666;
-	 padding: 10px 15px;
+	font-size: 15px;
+	color: #666;
+	padding: 10px 15px;
  }
  .uni-list-cell-db{
-	 padding: 0 15px;
+	padding: 0 15px;
  }
 </style>

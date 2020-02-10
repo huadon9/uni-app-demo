@@ -137,4 +137,7 @@
   .list-item{
     margin-bottom: 10px;
   }
+  /deep/.uni-list-item__container{
+    border: none !important;
+  }
 </style>

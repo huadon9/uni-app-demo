@@ -35,6 +35,7 @@
   import uniListItem from "@dcloudio/uni-ui/lib/uni-list-item/uni-list-item.vue"
   import NavBar from '@/components/NavBar/index'
   import LoadSign from '@/components/LoadSign/index'
+  
 
 	export default {
 		data() {
@@ -210,4 +211,5 @@
   .list-r{
     float: right;
   }
+  
 </style>

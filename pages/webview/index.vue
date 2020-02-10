@@ -1,7 +1,7 @@
 <template>
 	<view>
-        <web-view :webview-styles="webviewStyles" src="http://ms.geto.pro/main/"></web-view>
-    </view>
+			<web-view :webview-styles="webviewStyles" :src="src"></web-view>
+	</view>
 </template>
 
 <script>
@@ -12,11 +12,14 @@
 					progress: {
 						color: '#FF3333'
 					}
-				}
+				},
+				src: ''
 			}
 		},
-		onLoad() {
-
+		onLoad(options) {
+			let src = options.src
+			let token = options.token
+			this.src = src + '&token=' + token
 		},
 		methods: {
 

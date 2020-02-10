@@ -47,6 +47,8 @@
     },
     "usingComponents": true,
     "nvueCompiler": "uni-app",
+    "nvueLaunchMode": "fast",
+    "compilerVersion": 3,
     "distribute": {
       "google": {
         "permissions": [

@@ -1,4 +1,9 @@
 export default {
+	data: function () {  
+		return {
+			backgroundColor: 'rgb(26, 173, 25)'
+		}
+	},
 	methods: {
 		/**
 		 * 深复制
