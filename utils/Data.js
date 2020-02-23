@@ -29,7 +29,7 @@ class Data {
     //   },
     // })
     this.service = axios.create({
-        baseURL: 'http://192.168.1.183',
+        baseURL: '',
         timeout: 6000,  // 不可超过 manifest.json 中配置 networkTimeout的超时时间
         // #ifdef H5
         withCredentials: true,
@@ -74,23 +74,17 @@ class Data {
     service = this.service
     
     // 不是开发环境，全部使用真实接口
-    // if (env.NODE_ENV !== 'development') {
-    //   if (params.url.indexOf('/upload') > -1) {
-    //     params.url = params.url.replace('/upload', '') // 去除/upload
-    //   } else if (params.url.indexOf('/api') > -1) {
-    //     params.url = params.url.replace('/api', '') // 去除/api
-    //   }
-    //   service = this.service
-    // }
-
-    //#ifndef H5
-    
-    //#endif
-    if (params.url.indexOf('/upload') > -1) {
-      params.url = params.url.replace('/upload', '') // 去除/upload
-    } else if (params.url.indexOf('/api') > -1) {
-      params.url = params.url.replace('/api', '') // 去除/api
+    if (env.NODE_ENV !== 'development') {
+      if (params.url.indexOf('/upload') > -1) {
+        params.url = params.url.replace('/upload', '') // 去除/upload
+      } else if (params.url.indexOf('/api') > -1) {
+        params.url = params.url.replace('/api', '') // 去除/api
+      }
+      service = this.service
     }
+
+   
+ 
 
     // 每次请求携带cookies信息
     // axios.defaults.withCredentials = true;

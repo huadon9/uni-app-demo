@@ -18,7 +18,6 @@
 
 <script>
   import { ClientApi } from '@/utils/ClientApi.js'
-  import http from '@/utils/Http.js'
 	export default {
 		data() {
 			return {
@@ -47,7 +46,7 @@
           });
           uni.setStorage({
             key: "media_type", 
-            data: '1'
+            data: '2'
           });
           uni.navigateTo({
             url: '/pages/menu/index'

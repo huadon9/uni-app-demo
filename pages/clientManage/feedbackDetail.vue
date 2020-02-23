@@ -4,6 +4,9 @@
 		<!-- 如需单页面使用多次,重置一下@change返回值以及修改ref钩子名称即可-->
 		<view class="sunui-title">图片上传</view>
 		<sunui-upimg @change="getImageInfo" :upload_auto="true" :upimg_move="true" ref="upimg"></sunui-upimg>
+		<view>
+			<input type="file">123
+		</view>
 		<button @click="goUploadPage()">上传页面</button>
 		<!-- <upload-file></upload-file> -->
 		<button @click="pageComunication">跨页面通信切换详情页navbar</button>
@@ -190,7 +193,7 @@
 			// 是否自动上传 - upload_auto:true/false，默认自动上传. 如需手动上传则置为false,再置为true
 
 			// 这里是上传服务器的后端url(这里是后端签名等，然后前端直接调用->这种方式支持App/小程序/h5)
-			this.$refs.upimg.url = 'http:192.168.1.183/upload/base/file/upload_vue';
+			this.$refs.upimg.url = 'upload/upload/base/file/upload_vue';
 			// 上传数量控制
 			this.$refs.upimg.upload_count = 4;
 			// 图片以及添加宽高

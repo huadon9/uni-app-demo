@@ -36,6 +36,14 @@ export default {
 				};
 			}
 			return Array.isArray(param)
+		},
+		/**
+		 * 判断元素是否包含在数组中
+		 * @param {*} array 
+		 * @param {*} item 
+		 */
+		inArray (array, item) {
+			return array.indexOf(item) > -1
 		}
 	}
 }

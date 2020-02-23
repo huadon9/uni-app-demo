@@ -1,13 +1,13 @@
 <script>
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			// console.log('App Launch')
 		},
 		onShow: function() {
-			console.log('App Show')
+			// console.log('App Show')
 		},
 		onHide: function() {
-			console.log('App Hide')
+			// console.log('App Hide')
 		}
 	}
 </script>
@@ -19,6 +19,10 @@
 	/* 统一设置页面的背景颜色 */
 	page{
 		background-color: #f8f8f8
+	}
+	
+	uni-button[type=primary]{
+		background-color:#1aad19;
 	}
 
 	/* 取消loading组件的黑色透明背景 only h5 */

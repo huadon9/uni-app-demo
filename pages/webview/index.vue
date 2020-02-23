@@ -17,12 +17,25 @@
 			}
 		},
 		onLoad(options) {
-			let src = options.src
-			let token = options.token
-			this.src = src + '&token=' + token
+			this.src = this.getWebSrc(options)
 		},
 		methods: {
-
+			getWebSrc (options) {
+				let src = decodeURIComponent(options.src)
+				console.log(src)
+				let sign = options.sign
+				let token = this.getToken(sign)
+				if (src.indexOf('?') > -1) {
+					src = `${src}&token=${token}&unisignspec=${sign}`
+				} else {
+					src = `${src}?token=${token}&unisignspec=${sign}`
+				}
+				return src
+			},
+			getToken (sign) {
+				let obj = JSON.parse(sign)
+				return obj.token
+			}
 		}
 	}
 </script>
